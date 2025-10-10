@@ -1,0 +1,20 @@
+{
+  "name": "worktime-monorepo",
+  "private": true,
+  "version": "0.1.0",
+  "packageManager": "npm@10.4.0",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "npm run build --workspace web",
+    "dev": "npm run dev --workspace web",
+    "lint": "npm run lint --workspace web",
+    "typecheck": "npm run typecheck --workspace web",
+    "prettier": "prettier"
+  },
+  "devDependencies": {
+    "prettier": "^3.2.5"
+  }
+}
