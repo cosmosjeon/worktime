@@ -1,42 +1,120 @@
-# worktime
+# 🕒 Worktime
 
-When2Meet 스타일의 팀 출근 가능 시간 공유 툴을 확장 가능한 형태로 리팩터링했습니다. 모노레포 루트에는 문서 및 패키지 설정이 있으며, React/Next.js 기반 UI는 `apps/web`에, 향후 공용 패키지는 `packages/` 아래에 추가할 수 있습니다.
+팀원들의 출근 가능 시간을 공유하고 조율하는 When2Meet 스타일의 협업 도구입니다.
 
-## 디렉터리 구조
+## 📋 프로젝트 소개
+
+Worktime은 팀원들이 각자의 출근 가능 시간을 시각적으로 공유하고, 팀 전체의 가능 시간을 한눈에 파악할 수 있는 웹 애플리케이션입니다. 모노레포 구조로 설계되어 확장 가능하며, 향후 다양한 기능 추가와 마이크로 프론트엔드 아키텍처로의 확장이 가능합니다.
+
+### 주요 기능
+
+- ⏰ **시간표 기반 일정 선택**: 요일별/시간대별 출근 가능 시간을 직관적으로 선택
+- 👥 **팀 뷰 / 개인 뷰 전환**: 팀 전체 가능 시간과 개인별 선택 시간을 토글로 전환
+- 📊 **멤버별 요약 패널**: 각 팀원의 선택 현황을 한눈에 파악
+- 🎨 **반응형 UI**: 데스크톱과 모바일 환경 모두 지원
+- 💾 **클라이언트 상태 관리**: Zustand를 활용한 효율적인 상태 관리
+
+## 🏗️ 프로젝트 구조
 
 ```
-.
-├── apps
-│   └── web        # Next.js 14 + TypeScript 앱 (Vercel 배포 대상)
-├── docs
+worktime/
+├── apps/
+│   └── web/              # Next.js 14 + TypeScript 메인 애플리케이션
+│       ├── app/          # Next.js App Router 페이지
+│       └── src/
+│           └── features/
+│               └── schedule/  # 스케줄 관련 컴포넌트 및 로직
+├── packages/             # 공용 패키지 (향후 확장)
+├── docs/                 # 프로젝트 문서
 │   └── architecture.md
-├── packages       # 향후 공용 UI, 도메인 모듈 등을 위한 워크스페이스
-└── package.json   # 루트 스크립트 및 npm 워크스페이스 설정
+└── package.json          # 워크스페이스 루트 설정
 ```
 
-## 개발 환경 준비
+## 🚀 시작하기
 
-1. 의존성을 설치합니다.
+### 사전 요구사항
+
+- Node.js 18.x 이상
+- npm 10.4.0 이상
+
+### 설치 및 실행
+
+1. **의존성 설치**
    ```bash
    npm install
    ```
-2. 로컬 개발 서버를 실행합니다.
+
+2. **개발 서버 실행**
    ```bash
    npm run dev
    ```
-   기본적으로 `http://localhost:3000`에서 앱을 확인할 수 있습니다.
 
-## Next.js 웹앱 개요 (`apps/web`)
-- `app/page.tsx`: 출근 시간표 메인 페이지. Zustand 스토어를 사용해 팀원 상태와 시간을 관리합니다.
-- 팀 전체/개인 보기 토글과 멤버별 요약 패널을 통해 각 팀원의 선택 현황을 빠르게 파악할 수 있습니다.
-- `src/features/schedule`: When2Meet 스타일 UI를 구성하는 컴포넌트, 스토어, 유틸.
-- `app/providers.tsx`: React Query Provider를 설정해 향후 서버 상태 동기화(예: Supabase) 기반 확장을 위한 토대를 마련했습니다.
-- Tailwind 구성을 포함하지만 현재 화면은 기존 디자인을 CSS로 유지했습니다. 필요 시 Tailwind 컴포넌트로 단계적 전환이 가능합니다.
+3. **브라우저에서 확인**
 
-## 향후 확장 포인트
-- Supabase(PostgreSQL + Auth + Realtime) 연동으로 영속 저장 및 실시간 협업 구현.
-- `packages/`에 UI 컴포넌트 라이브러리(`ui/`), 도메인 로직 패키지(`core/`) 추가.
-- GitHub Actions 등을 통한 CI, 인프라 IaC(`infra/`)는 `docs/architecture.md`의 로드맵을 참고하세요.
+   `http://localhost:3000` 에서 애플리케이션을 확인할 수 있습니다.
 
-## 기존 정적 프로토타입
-- 레거시 참고용 `index.html`은 루트에 남겨두었습니다. 새 아키텍처에서는 `apps/web`이 기준입니다.
+### 빌드
+
+```bash
+npm run build
+```
+
+### 린트 및 타입 체크
+
+```bash
+npm run lint
+npm run typecheck
+```
+
+## 🛠️ 기술 스택
+
+### Frontend
+- **Framework**: Next.js 14 (App Router)
+- **Language**: TypeScript
+- **상태 관리**: Zustand
+- **서버 상태**: TanStack Query (React Query)
+- **스타일링**: Tailwind CSS
+
+### 개발 도구
+- **패키지 매니저**: npm workspaces
+- **코드 포맷팅**: Prettier
+- **타입 체킹**: TypeScript
+
+## 📱 apps/web 상세
+
+메인 웹 애플리케이션은 Next.js 14의 App Router를 사용하여 구성되어 있습니다.
+
+- **`app/page.tsx`**: 메인 페이지 - 출근 시간표 UI
+- **`app/providers.tsx`**: React Query Provider 설정
+- **`src/features/schedule/`**: 스케줄 기능 관련 모듈
+  - 컴포넌트: When2Meet 스타일 UI 컴포넌트
+  - 스토어: Zustand 기반 상태 관리
+  - 유틸리티: 시간 계산 및 데이터 변환 함수
+
+## 🔮 향후 계획
+
+### 단기 목표
+- [ ] Supabase 연동 (PostgreSQL + Auth + Realtime)
+- [ ] 실시간 협업 기능 구현
+- [ ] 사용자 인증 및 권한 관리
+- [ ] 영속 데이터 저장
+
+### 장기 목표
+- [ ] `packages/ui`: 공용 UI 컴포넌트 라이브러리
+- [ ] `packages/core`: 도메인 로직 공용 패키지
+- [ ] GitHub Actions CI/CD 파이프라인
+- [ ] 인프라 IaC 구성
+
+자세한 로드맵은 [`docs/architecture.md`](docs/architecture.md)를 참고하세요.
+
+## 📄 라이센스
+
+이 프로젝트는 개인/팀 프로젝트입니다.
+
+## 🤝 기여
+
+현재는 팀 내부 프로젝트로 운영되고 있습니다.
+
+---
+
+**Note**: 레거시 정적 프로토타입 파일(`index.html` 등)은 참고용으로 보관되어 있습니다. 새로운 개발은 모두 `apps/web`을 기준으로 진행됩니다.
